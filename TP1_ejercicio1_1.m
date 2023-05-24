@@ -22,9 +22,9 @@ for t=0:t_etapa:tF
 end 
 t=0:t_etapa:tF; 
 subplot(3,1,1);hold on; 
-plot(t,x1);title('Corriente'); 
+plot(t,x1);title('Corriente'); grid on 
 subplot(3,1,2);hold on; 
-plot(t,acc);title('Voltaje Aplicado'); 
+plot(t,acc);title('Voltaje Aplicado'); grid on
 subplot(3,1,3);hold on; 
-plot(t,x2);title('Voltaje en el capacitor'); 
+plot(t,x2);title('Voltaje en el capacitor'); grid on
 xlabel('Tiempo [Seg.]');

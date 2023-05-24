@@ -48,7 +48,7 @@ T1_ang=sum(T1/length(T1));
 sys_G_ang=tf(K*[T3_ang 1],conv([T1_ang 1],[T2_ang 1]))
 y_id=StepAmplitude*step(sys_G_ang , t_s );
 %con los elementos calculados se vuelve a graficar
-R=1; L=0.7047e-3; C=5.223e-3;
+R=75.42; L=56.3450245e-3; C=6.925219e-5;
 num=[0 0 1];
 den=[L*C R*C 1];
 G_Resul= tf(num,den);
