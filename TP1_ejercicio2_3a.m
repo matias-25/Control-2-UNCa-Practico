@@ -10,13 +10,14 @@ plot(t,wr); title('velocidad angular [Rad/seg], wr'); grid on;
 subplot(2,1,2);
 plot(t,ia);title('Corriente armadura [A], ia'); grid on;
 
-%Escalón voltaje de 12V
+%Escalï¿½n voltaje de 12V
 StepAmplitude=12;
 temp_co=3659;
 t_s=t(temp_co:22991)-t(temp_co); %dezplazo el eje t
 y=wr(temp_co:22991); %se analiza la seccion del Escalon positivo 
 t0=t_s;
 t_inic=0.0217-t(temp_co); %tiempo inicial 
+t_inic=.0005;
 [val lugar] =min(abs(t_inic-t0)); 
 y_t1=y(lugar); 
 t_t1=t0(lugar); 
@@ -39,9 +40,9 @@ beta=(k1+alfa2)/(alfa1-alfa2);
 T1_ang=-t_t1/log(alfa1); 
 T2_ang=-t_t1/log(alfa2); 
 T3_ang=beta*(T1_ang-T2_ang)+T1_ang; 
-T1(ii_TL)=T1_ang; 
-T2(ii_TL)=T2_ang; 
-T3(ii_TL)=T3_ang; 
+T1(ii_TL)=real(T1_ang); 
+T2(ii_TL)=real(T2_ang); 
+T3(ii_TL)=real(T3_ang); 
 T3_ang=sum(T3/length(T3)); 
 T2_ang=sum(T2/length(T2)); 
 T1_ang=sum(T1/length(T1)); 
@@ -50,7 +51,7 @@ y_id=StepAmplitude*step(sys_G_ang_va , t_s );
 
 figure(2);
 plot(t_s,y,'r');legend('Real'),hold on
-plot(t_t1,y_t1,'*')
+plot(t_t1,y_t1,'o')
 plot(t_2t1,y_2t1,'o')
 plot(t_3t1,y_3t1,'o')
 plot(t_s,y_id,'k'); hold on
@@ -58,24 +59,26 @@ plot(t_s,y_id,'k'); hold on
 %legend('Real','Intervalo 1','Intervalo 2','Intervalo 3','Identificada'); 
 %legend('boxoff');grid on
 
-%Escalón de Torque de carga
-StepTL=-7.5e-2;
+%Escalï¿½n de Torque de carga
+StepTL=7.5e-2;
 temp_co_TL=6326;
 t_s_TL=t(temp_co_TL:22991)-t(temp_co_TL); %dezplazo el eje t
 y_TL=wr(temp_co_TL:22991); %se analiza la seccion del Escalon positivo 
 t0_TL=t_s_TL;
 t_inic_TL=0.1009-t(temp_co_TL);  %tiempo inicial 
+t_inic_TL=.0005;
 [val_TL lugar_TL] =min(abs(t_inic_TL-t0_TL));
-y_t1_TL=y_TL(lugar_TL); 
+y_t1_TL=-y_TL(lugar_TL)+198.2;
 t_t1_TL=t0_TL(lugar_TL); 
 ii_TL=1; 
 [val_TL lugar_TL] =min(abs(2*t_inic_TL-t0_TL)); 
 t_2t1_TL=t0_TL(lugar_TL); 
-y_2t1_TL=y_TL(lugar_TL); 
+y_2t1_TL=-y_TL(lugar_TL)+198.2; 
 [val_TL lugar_TL] =min(abs(3*t_inic_TL-t0_TL)); 
 t_3t1_TL=t0_TL(lugar_TL); 
-y_3t1_TL=y_TL(lugar_TL); 
-K_TL=y_TL(end)/StepTL; 
+y_3t1_TL=-y_TL(lugar_TL)+198.2; 
+% K_TL=y_TL(end)/StepTL; 
+K_TL=-(46.2-198)/StepTL; 
 k1_TL=(1/StepTL)*y_t1_TL/K_TL-1;%Afecto el valor del Escalon 
 k2_TL=(1/StepTL)*y_2t1_TL/K_TL-1; 
 k3_TL=(1/StepTL)*y_3t1_TL/K_TL-1; 
@@ -90,19 +93,44 @@ T3_ang_TL=beta_TL*(T1_ang_TL-T2_ang_TL)+T1_ang_TL;
 T1_TL(ii_TL)=T1_ang_TL; 
 T2_TL(ii_TL)=T2_ang_TL; 
 T3_TL(ii_TL)=T3_ang_TL; 
+
 T3_ang_TL=sum(T3_TL/length(T3_TL)); 
 T2_ang_TL=sum(T2_TL/length(T2_TL)); 
 T1_ang_TL=sum(T1_TL/length(T1_TL)); 
 sys_G_ang_TL=tf(K_TL*[T3_ang_TL 1],conv([T1_ang_TL 1],[T2_ang_TL 1]))
+
 aux=temp_co_TL-temp_co;
-y_id_TL=[198.2488*ones(aux,1);StepTL*step(sys_G_ang_TL , t_s_TL)];
+% y_id_TL=[198.2488*ones(aux,1);StepTL*step(sys_G_ang_TL , t_s_TL)];NO VA A
+% FUNCIONAR PORQUE NO TIENE CONDICIONES INICIALES NULAS
 
 figure(2);
 %plot(t_s,y,'r'),hold on
-plot(t_t1_TL + t_s(aux),y_t1_TL,'*');hold on
+plot(t_t1_TL + t_s(aux),y_t1_TL,'o');hold on
 plot(t_2t1_TL + t_s(aux),y_2t1_TL,'o')
 plot(t_3t1_TL + t_s(aux),y_3t1_TL,'o')
 plot(t_s,y_id_TL,'c');grid on
 % step(StepAmplitude*G_Resul,'c');
 %legend('Real','Intervalo 1','Intervalo 2','Intervalo 3','Identificada'); 
 %legend('boxoff');grid on
+
+dt=3e-5;
+t_s=(0:dt:t(end-1))'; %'
+u1_Va=zeros(fix(t(temp_co)/dt),1);
+u2_Va=12*ones((.6-t(temp_co))/dt,1);%Va=12V
+u1_T=zeros(fix(.1000/dt)+1,1); %TL=0
+u2_T=StepTL*ones(fix((.6-.100)/dt),1);
+u_Va=[u1_Va;u2_Va];
+u_T=[u1_T;u2_T];
+[y2,t2_,ent2]=lsim(sys_G_ang_TL, u_T, t_s,[0,0]);
+
+
+u1_Va=zeros(1+fix(t(temp_co)/dt),1);
+u2_Va=12*ones((.6-t(temp_co))/dt,1);%Va=12V
+u1_T=zeros(fix(.1000/dt)+1,1); %TL=0
+u2_T=ones(fix((.6-.100)/dt),1);
+u_Va=[u1_Va;u2_Va];
+u_T=[u1_T;u2_T];
+[y1,t1,ent]=lsim(sys_G_ang_va, u_Va, t_s, [0,0]);
+figure;
+plot(t, wr,'k');hold on
+plot(t_s,y1-y2,'r');legend('Datos','Modelado')
