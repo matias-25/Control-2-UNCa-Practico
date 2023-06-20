@@ -8,7 +8,7 @@ C=[R 0];
 D=0;
 Maux=(s*eye(2)-A)^(-1);
 G=(C*Maux*B);
-disp(G); %este resultado es usando la fórmula
+disp(G); %este resultado es usando la fÃ³rmula
 
 [num,den] = ss2tf(A,B,C,D);
 G_1=tf(num,den);
