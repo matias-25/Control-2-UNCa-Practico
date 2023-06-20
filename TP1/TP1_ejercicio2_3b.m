@@ -15,7 +15,7 @@ for t=1:tF
     x2(ii)=X(2);%Omega velocidad angular
     x3(ii)=X(3);%wp aceleracion angular
     x4(ii)=X(4);%tita, angulo de salida
-    acc(ii)=u;%u escalón entrada
+    acc(ii)=u;%u escalÃ³n entrada
     accTL(ii)=TL;%escalon Torque
     
      if tm(ii)>=0.0201
