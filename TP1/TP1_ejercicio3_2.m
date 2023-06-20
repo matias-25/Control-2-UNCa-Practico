@@ -15,9 +15,9 @@ for t=0:t_etapa:tF
 end 
 t=0:t_etapa:tF; 
 subplot(3,2,1);
-plot(t,x1);title('¡ngulo con la horizontal alfa'); grid on 
+plot(t,x1);title('√Ångulo con la horizontal alfa'); grid on 
 subplot(3,2,2);hold on; 
-plot(t,x2);title('¡ngulo de cabeceo phi'); grid on
+plot(t,x2);title('√Ångulo de cabeceo phi'); grid on
 subplot(3,2,3);hold on; 
 plot(t,x3);title('phip'); grid on 
 subplot(3,2,4);hold on; 
