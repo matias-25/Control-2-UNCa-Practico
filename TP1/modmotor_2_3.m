@@ -1,5 +1,5 @@
 function [X]=modmotor_2_3(t_etapa, xant, accion)
-%De la funcion de Transferencia obtenida del método de Chen
+%De la funcion de Transferencia obtenida del mÃ©todo de Chen
 %wr=(16.52*Va-2024*TL)/(2.017e-08 s^2 + 0.0004693 s + 1) 
  %comparando con FT general se puede despejar las constantes 
 B=0;%se considera la viscosidad motora nula
