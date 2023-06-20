@@ -10,7 +10,7 @@ plot(t,wr); title('velocidad angular [Rad/seg], wr'); grid on;
 subplot(2,1,2);
 plot(t,ia);title('Corriente armadura [A], ia'); grid on;
 
-%Escalón voltaje de 12V
+%EscalÃ³n voltaje de 12V
 StepAmplitude=12;
 temp_co=3659;
 t_s=t(temp_co:22991)-t(temp_co); %dezplazo el eje t
@@ -58,7 +58,7 @@ plot(t_s,y_id,'k'); hold on
 %legend('Real','Intervalo 1','Intervalo 2','Intervalo 3','Identificada'); 
 %legend('boxoff');grid on
 
-%Escalón de Torque de carga
+%EscalÃ³n de Torque de carga
 StepTL=-7.5e-2;
 temp_co_TL=6326;
 t_s_TL=t(temp_co_TL:22991)-t(temp_co_TL); %dezplazo el eje t
